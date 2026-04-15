@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard | AI Prescription</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/style.css">
+<style>
+body{
+    font-family: 'Inter', sans-serif;
+    background: #f1f5f9;
+}
+
+/* DASHBOARD */
+.dashboard{
+    padding:100px 0 40px;
+}
+
+/* CARDS */
+.card-box{
+    background:#fff;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+.card-box:hover{
+    transform:translateY(-5px);
+}
+
+/* ICON */
+.card-icon{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+/* COLORS */
+.bg-blue{ color:#1e3a8a; }
+.bg-green{ color:#16a34a; }
+.bg-red{ color:#dc2626; }
+.bg-orange{ color:#f97316; }
+
+/* TABLE */
+.table-box{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+/* STEP BOX */
+.step-box{
+    padding:15px;
+    border-radius:10px;
+    background:#e2e8f0;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.step-active{
+    background:#6366f1;
+    color:white;
+}
+
+/* TRAIN IMAGES */
+#trainImages img{
+    width:100%;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+/* BUTTON */
+.btn-gradient{
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:10px 18px;
+    font-weight:600;
+}
+
+/* STEP BOX */
+.step-box{
+    background:#e2e8f0;
+    padding:15px;
+    border-radius:12px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.step-box i{
+    font-size:18px;
+}
+
+.step-active{
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    color:white;
+}
+
+/* IMAGE */
+.img-box{
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.img-box img{
+    width:100%;
+    transition:0.3s;
+}
+
+.img-box:hover img{
+    transform:scale(1.05);
+}
+
+/* GRAPH CARD */
+.graph-card{
+    background:#fff;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+.text-box{
+    background:#f8fafc;
+    padding:15px;
+    border-radius:10px;
+    border-left:5px solid #10b981;
+    max-height:200px;
+    overflow:auto;
+}
+
+.text-box p{
+    margin:0;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg custom-navbar fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Admin Panel</a>
+
+        <div class="ms-auto d-flex align-items-center gap-2">
+            <a href="/logout" class="btn btn-sm btn-light">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- DASHBOARD -->
+<section class="dashboard">
+
+<div class="container">
+
+<!-- TITLE -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0">🤖 Model Training Visualization</h4>
+
+    <form method="POST">
+        <button class="btn btn-gradient px-4">
+            🚀 Start Training
+        </button>
+    </form>
+</div>
+
+<!-- MAIN CARD -->
+<div class="card-box">
+
+    <!-- PIPELINE -->
+    <h6 class="mb-3 text-muted">Training Pipeline</h6>
+
+    <div class="row text-center mb-4 g-3">
+
+        <div class="col-md-3">
+            <div class="step-box {% if trained %}step-active{% endif %}">
+                <i class="fas fa-image mb-2"></i><br>
+                Preprocessing
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="step-box {% if trained %}step-active{% endif %}">
+                <i class="fas fa-object-group mb-2"></i><br>
+                Segmentation
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="step-box {% if trained %}step-active{% endif %}">
+                <i class="fas fa-project-diagram mb-2"></i><br>
+                Feature Extraction
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="step-box {% if trained %}step-active{% endif %}">
+                <i class="fas fa-brain mb-2"></i><br>
+                Classification
+            </div>
+        </div>
+
+    </div>
+
+    {% if trained %}
+
+<!-- ================= PREPROCESSING ================= -->
+<div class="card-box mt-4">
+<h5>🟦 Step 1: Preprocessing (Grayscale)</h5>
+
+<div class="row">
+{% for img in preprocess_imgs %}
+<div class="col-md-3 mb-3">
+<img src="{{ url_for('static', filename=img) }}" class="img-fluid rounded">
+</div>
+{% endfor %}
+</div>
+</div>
+
+<!-- ================= SEGMENTATION ================= -->
+<div class="card-box mt-4">
+<h5>🟨 Step 2: Segmentation (Binary)</h5>
+
+<div class="row">
+{% for img in segment_imgs %}
+<div class="col-md-3 mb-3">
+<img src="{{ url_for('static', filename=img) }}" class="img-fluid rounded">
+</div>
+{% endfor %}
+</div>
+</div>
+
+<!-- ================= FEATURE ================= -->
+<div class="card-box mt-4">
+<h5>🟩 Step 3: Feature Extraction (Edges)</h5>
+
+<div class="row">
+{% for img in feature_imgs %}
+<div class="col-md-3 mb-3">
+<img src="{{ url_for('static', filename=img) }}" class="img-fluid rounded">
+</div>
+{% endfor %}
+</div>
+</div>
+
+<!-- ================= CLASSIFICATION ================= -->
+<!-- ================= DETECTION ================= -->
+<div class="card-box mt-4">
+<h5>🟥 Step 4: Text Detection & Extraction</h5>
+
+<div class="row">
+
+{% for img in detect_imgs %}
+<div class="col-md-4 mb-3">
+    <img src="{{ url_for('static', filename=img) }}" class="img-fluid rounded">
+</div>
+{% endfor %}
+
+</div>
+
+<!-- TEXT OUTPUT -->
+<div class="mt-3">
+<h6>📝 Extracted Text</h6>
+
+<div class="text-box">
+{% for t in texts %}
+    <p>• {{ t }}</p>
+{% endfor %}
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= GRAPHS ================= -->
+<div class="card-box mt-4">
+<h5>📊 Training Performance</h5>
+
+<div class="row">
+<div class="col-md-6">
+<canvas id="lossChart"></canvas>
+</div>
+
+<div class="col-md-6">
+<canvas id="accChart"></canvas>
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+new Chart(document.getElementById('lossChart'), {
+    type:'line',
+    data:{
+        labels:[1,2,3,4],
+        datasets:[{label:'Loss',data:{{ loss }}}]
+    }
+});
+
+new Chart(document.getElementById('accChart'), {
+    type:'line',
+    data:{
+        labels:[1,2,3,4],
+        datasets:[{label:'Accuracy',data:{{ acc }}}]
+    }
+});
+</script>
+
+{% endif %}
+
+</div>
+
+</div>
+</section>
+
+<!-- CHART SCRIPT -->
+{% if trained %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+new Chart(document.getElementById('lossChart'), {
+    type:'line',
+    data:{
+        labels:[1,2,3,4],
+        datasets:[{
+            label:'Loss',
+            data:{{ loss }},
+            borderWidth:2,
+            tension:0.4
+        }]
+    },
+    options:{
+        plugins:{legend:{display:false}},
+        scales:{y:{beginAtZero:true}}
+    }
+});
+
+new Chart(document.getElementById('accChart'), {
+    type:'line',
+    data:{
+        labels:[1,2,3,4],
+        datasets:[{
+            label:'Accuracy',
+            data:{{ acc }},
+            borderWidth:2,
+            tension:0.4
+        }]
+    },
+    options:{
+        plugins:{legend:{display:false}},
+        scales:{y:{beginAtZero:true}}
+    }
+});
+</script>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+function startTraining(){
+
+    fetch('/start_training')
+    .then(res => res.json())
+    .then(data => {
+
+        // STEP HIGHLIGHT
+        let steps = ['step1','step2','step3','step4'];
+
+        steps.forEach((s,i)=>{
+            setTimeout(()=>{
+                document.getElementById(s).classList.add('step-active');
+            }, i*1000);
+        });
+
+        // SHOW IMAGES
+        let container = document.getElementById("trainImages");
+        container.innerHTML = "";
+
+        data.images.forEach(img=>{
+            container.innerHTML += `
+                <div class="col-md-3">
+                    <img src="${img}">
+                </div>
+            `;
+        });
+
+        // LOSS GRAPH
+        new Chart(document.getElementById('lossChart'), {
+            type:'line',
+            data:{
+                labels:[1,2,3,4],
+                datasets:[{
+                    label:'Loss',
+                    data:data.loss
+                }]
+            }
+        });
+
+        // ACC GRAPH
+        new Chart(document.getElementById('accChart'), {
+            type:'line',
+            data:{
+                labels:[1,2,3,4],
+                datasets:[{
+                    label:'Accuracy',
+                    data:data.acc
+                }]
+            }
+        });
+
+    });
+}
+</script>
+</body>
+</html>
+

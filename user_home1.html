@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Prescription Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(135deg,#eef2ff,#fdf2f8);
+}
+
+/* NAVBAR */
+.custom-navbar {
+    background: linear-gradient(135deg,#0f172a,#1e3a8a);
+}
+
+/* DASHBOARD */
+.dashboard{
+    padding:110px 0 50px;
+}
+
+/* CARD */
+.glass-card{
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.08);
+    margin-bottom:20px;
+    transition:0.3s;
+}
+.glass-card:hover{
+    transform:translateY(-5px);
+}
+
+/* INPUT */
+input{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    margin-bottom:10px;
+}
+
+/* BUTTON */
+.btn-main{
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:10px;
+    width:100%;
+}
+
+/* IMAGE */
+.main-img{
+    width:100%;
+    border-radius:12px;
+}
+
+/* GRID */
+.crop-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+    gap:10px;
+}
+
+/* PROGRESS BAR */
+.progress{
+    height:20px;
+    border-radius:20px;
+}
+
+/* STATUS COLORS */
+.status-good{color:#10b981;font-weight:600;}
+.status-warning{color:#f59e0b;font-weight:600;}
+.status-danger{color:#ef4444;font-weight:600;}
+
+.section-title{
+    font-weight:600;
+    margin-bottom:10px;
+    color:#4f46e5;
+    border-left:5px solid #6366f1;
+    padding-left:10px;
+}
+
+.form-control, .form-select{
+    border-radius:10px;
+    padding:10px;
+    border:1px solid #e5e7eb;
+    margin-bottom:10px;
+    transition:0.2s;
+}
+
+.form-control:focus, .form-select:focus{
+    border-color:#6366f1;
+    box-shadow:0 0 8px rgba(99,102,241,0.3);
+}
+
+.btn-main{
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:12px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    transition:0.3s;
+}
+
+.btn-main:hover{
+    transform:scale(1.03);
+    box-shadow:0 10px 25px rgba(236,72,153,0.3);
+}
+
+/* IMAGE CARD */
+.image-card{
+    position: relative;
+    overflow: hidden;
+}
+
+/* IMAGE WRAPPER */
+.image-wrapper{
+    border-radius:15px;
+    overflow:hidden;
+    position:relative;
+}
+
+/* IMAGE STYLE */
+.main-img{
+    width:100%;
+    border-radius:15px;
+    transition:transform 0.4s ease;
+}
+
+/* HOVER EFFECT */
+.image-wrapper:hover .main-img{
+    transform:scale(1.05);
+}
+
+/* BADGE */
+.bg-gradient{
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+/* OPTIONAL OVERLAY */
+.image-wrapper::after{
+    content:"AI Processed";
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:12px;
+}
+
+/* CARD HEADER */
+.card-header-custom{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.card-header-custom i{
+    font-size:20px;
+}
+
+.card-header-custom h5{
+    margin:0;
+    font-weight:600;
+}
+
+/* INFO LIST */
+.info-list p{
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px solid #eee;
+    padding:8px 0;
+    margin:0;
+}
+
+.info-list span{
+    font-weight:600;
+    color:#6366f1;
+}
+
+/* CROPS */
+.crop-item{
+    overflow:hidden;
+    border-radius:10px;
+}
+
+.crop-item img{
+    width:100%;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.crop-item:hover img{
+    transform:scale(1.1);
+}
+
+/* TABLE */
+.table-modern{
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.table-modern thead{
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    color:white;
+}
+
+/* RECOMMENDATION */
+.recommendation-box{
+    background:#ecfdf5;
+    padding:15px;
+    border-radius:12px;
+    border-left:5px solid #10b981;
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* HEADER */
+.card-header-custom{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.card-header-custom h5{
+    margin:0;
+    font-weight:600;
+}
+
+/* SMALL CHART */
+.chart-box{
+    height:120px;
+}
+
+/* VALIDATION */
+.validation-list{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.validation-list li{
+    padding:6px 0;
+    font-size:14px;
+}
+
+.validation-list .good{
+    color:#10b981;
+    font-weight:500;
+}
+
+.validation-list .warn{
+    color:#f59e0b;
+}
+
+/* ASSIST BOX */
+.assist-box{
+    background:#f9fafb;
+    padding:12px;
+    border-radius:12px;
+    text-align:center;
+    font-size:13px;
+}
+
+.alert-box{
+    color:#f59e0b;
+    font-weight:500;
+}
+
+/* FINAL OUTPUT */
+.final-list{
+    padding-left:18px;
+}
+
+.final-list li{
+    margin-bottom:6px;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg custom-navbar fixed-top">
+<div class="container">
+<a class="navbar-brand text-white" href="#">AI Prescription</a>
+
+<div class="ms-auto d-flex align-items-center gap-2">
+<div class="bg-white px-3 py-1 rounded-pill">
+<i class="fas fa-user"></i> {{ user }}
+</div>
+<a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+</div>
+</div>
+</nav>
+
+<section class="dashboard">
+<div class="container">
+
+<h3 class="mb-4">🧾 Smart Prescription Analysis</h3>
+
+<!-- FORM -->
+<div class="glass-card">
+
+<form method="POST" enctype="multipart/form-data">
+
+<!-- ================= IMAGE ================= -->
+<h5 class="section-title">📷 Prescription Upload</h5>
+<input type="file" name="image" required class="form-control mb-3">
+
+<!-- ================= PATIENT INFO ================= -->
+<h5 class="section-title">👤 Patient Information</h5>
+
+<div class="row">
+    <div class="col-md-6">
+        <input type="text" name="patient_id" placeholder="Patient ID (P001)" class="form-control">
+    </div>
+
+    <div class="col-md-6">
+        <input type="text" name="patient_name" placeholder="Patient Name" class="form-control">
+    </div>
+
+    <div class="col-md-4">
+        <input type="number" name="age" placeholder="Age (0-100)" class="form-control">
+    </div>
+
+    <div class="col-md-4">
+        <select name="gender" class="form-select">
+            <option value="">Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <select name="chronic" class="form-select">
+            <option value="">Chronic Disease</option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </div>
+</div>
+
+<!-- ================= HEALTH ================= -->
+<h5 class="section-title mt-4">🧠 Health Details</h5>
+
+<div class="row">
+    <div class="col-md-6">
+        <input type="text" name="symptoms" placeholder="Symptoms (Fever, Pain...)" class="form-control">
+    </div>
+
+    <div class="col-md-6">
+        <input type="text" name="history" placeholder="Medical History" class="form-control">
+    </div>
+
+    <div class="col-md-6">
+        <input type="text" name="prev_meds" placeholder="Previous Medications" class="form-control">
+    </div>
+
+    <div class="col-md-6">
+        <input type="text" name="allergies" placeholder="Allergies" class="form-control">
+    </div>
+
+    <div class="col-md-4">
+        <select name="bp" class="form-select">
+            <option value="">Blood Pressure</option>
+            <option>Low</option>
+            <option>Normal</option>
+            <option>High</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <select name="sugar" class="form-select">
+            <option value="">Sugar Level</option>
+            <option>Low</option>
+            <option>Normal</option>
+            <option>High</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <select name="pregnancy" class="form-select">
+            <option value="">Pregnancy Status</option>
+            <option>Yes</option>
+            <option>No</option>
+            <option>Not Applicable</option>
+        </select>
+    </div>
+</div>
+
+<!-- ================= PRESCRIPTION ================= -->
+<h5 class="section-title mt-4">📄 Prescription Details</h5>
+
+<div class="row">
+    <div class="col-md-6">
+        <input type="text" name="doctor_name" placeholder="Doctor Name" class="form-control">
+    </div>
+
+    <div class="col-md-6">
+        <input type="datetime-local" name="timestamp" class="form-control">
+    </div>
+</div>
+
+<!-- ================= BUTTON ================= -->
+<button class="btn-main mt-4">
+    🚀 Analyze Prescription
+</button>
+
+</form>
+</div>
+
+{% if output_image %}
+
+<div class="glass-card image-card">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">
+            <i class="fas fa-image text-primary"></i> Output Image
+        </h5>
+        <span class="badge bg-gradient">Processed</span>
+    </div>
+
+    <div class="image-wrapper">
+        <img src="{{ url_for('static', filename='output/' + output_image) }}" 
+             class="main-img">
+    </div>
+
+</div>
+
+{% endif %}
+{% if data %}
+
+<div class="row g-4">
+
+<!-- PATIENT INFO -->
+<div class="col-md-6">
+<div class="glass-card info-card">
+
+<div class="card-header-custom">
+    <i class="fas fa-user-circle text-primary"></i>
+    <h5>Patient Information</h5>
+</div>
+
+<div class="info-list">
+    <p><span>Clinic</span> {{ data.clinic }}</p>
+    <p><span>Name</span> {{ data.name }}</p>
+    <p><span>Age</span> {{ data.age }}</p>
+    <p><span>Gender</span> {{ data.sex }}</p>
+</div>
+
+</div>
+</div>
+
+<!-- CROPPED IMAGES -->
+<div class="col-md-6">
+<div class="glass-card">
+
+<div class="card-header-custom">
+    <i class="fas fa-crop text-success"></i>
+    <h5>Detected Regions</h5>
+</div>
+
+<div class="crop-grid">
+{% for img in crop_images %}
+    <div class="crop-item">
+        <img src="{{ url_for('static', filename='crops/' + img) }}">
+    </div>
+{% endfor %}
+</div>
+
+</div>
+</div>
+
+</div>
+
+<!-- MEDICINES -->
+<div class="glass-card">
+
+<div class="card-header-custom">
+    <i class="fas fa-pills text-danger"></i>
+    <h5>Prescribed Medicines</h5>
+</div>
+
+<table class="table table-modern align-middle">
+<thead>
+<tr>
+<th>#</th>
+<th>Medicine</th>
+<th>Dosage</th>
+<th>Duration</th>
+</tr>
+</thead>
+
+<tbody>
+{% for med in data.medicines %}
+<tr>
+<td><span class="badge bg-primary">{{ loop.index }}</span></td>
+<td>{{ med.name }}</td>
+<td><span class="badge bg-info text-dark">{{ med.dosage }}</span></td>
+<td><span class="badge bg-success">{{ med.duration }}</span></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+
+<!-- RECOMMENDATION -->
+<div class="glass-card">
+
+<div class="card-header-custom">
+    <i class="fas fa-notes-medical text-success"></i>
+    <h5>Doctor Recommendation</h5>
+</div>
+
+<div class="recommendation-box">
+    {{ data.recommendation }}
+</div>
+
+</div>
+
+{% endif %}
+{% if final %}
+
+<div class="row g-4">
+
+<!-- STEP 6 -->
+<div class="col-md-6">
+<div class="glass-card">
+
+<div class="card-header-custom">
+<i class="fas fa-brain text-primary"></i>
+<h5>Prediction</h5>
+</div>
+
+<p class="mb-2">
+<b>Status:</b> 
+<span class="badge bg-success px-3 py-2">{{ final.prediction }}</span>
+</p>
+
+<p class="mb-2">
+<b>Confidence:</b> {{ final.confidence }}%
+</p>
+
+<!-- PROGRESS -->
+<div class="progress mb-3">
+<div class="progress-bar bg-success" style="width: {{ final.confidence }}%"></div>
+</div>
+
+<!-- SMALL GRAPH -->
+<div class="chart-box">
+<canvas id="chart1"></canvas>
+</div>
+
+</div>
+</div>
+
+<!-- STEP 7 -->
+<div class="col-md-6">
+<div class="glass-card">
+
+<div class="card-header-custom">
+<i class="fas fa-shield-check text-success"></i>
+<h5>Validation</h5>
+</div>
+
+<ul class="validation-list">
+<li class="good">✔ Medicine validated</li>
+<li class="good">✔ Safe dosage</li>
+<li class="good">✔ No interaction</li>
+<li class="warn">✔ Alternative: {{ final.validation.alternative }}</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<!-- STEP 8 -->
+<div class="glass-card">
+
+<div class="card-header-custom">
+<i class="fas fa-headphones text-warning"></i>
+<h5>User Assistance</h5>
+</div>
+
+<div class="row g-3">
+
+<div class="col-md-4">
+<div class="assist-box">
+<p>🔊 Voice</p>
+<audio controls class="w-100">
+<source src="{{ final.voice }}">
+</audio>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="assist-box">
+<p>🌍 Translation</p>
+<small>Tamil: {{ final.tamil }}</small><br>
+<small>Hindi: {{ final.hindi }}</small>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="assist-box">
+<p>⏰ Reminder</p>
+<small>{{ final.reminder }}</small>
+<p class="mt-2 alert-box">🚨 {{ final.alert }}</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- FINAL OUTPUT -->
+<div class="glass-card">
+
+<div class="card-header-custom">
+<i class="fas fa-file-medical text-info"></i>
+<h5>Final Output</h5>
+</div>
+
+<ul class="final-list">
+<li>✔ Structured digital prescription</li>
+<li>✔ Suitability prediction with confidence</li>
+<li>✔ Safety validation & recommendation</li>
+<li>✔ Accessible user-friendly output</li>
+</ul>
+
+</div>
+
+<!-- CHART -->
+<script>
+new Chart(document.getElementById('chart1'), {
+type: 'doughnut',
+data: {
+labels: ['Confidence','Remaining'],
+datasets: [{
+data: [{{ final.confidence }}, 100-{{ final.confidence }}]
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{legend:{display:false}}
+}
+});
+</script>
+
+{% endif %}
+
+</div>
+</section>
+
+</body>
+</html>

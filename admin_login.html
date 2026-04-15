@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Prescription Reader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg custom-navbar fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">AI Prescription</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link " href="/">Home</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link " href="/user_login">User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin_login">Admin</a>
+                </li>
+                <li class="nav-item ms-3">
+                    <a class="btn btn-main" href="/register">Register</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+
+
+<section class="login-hero">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <!-- LEFT SIDE (ADMIN CONTENT) -->
+            <div class="col-lg-6">
+
+                <span class="hero-badge">🛠️ System Administration</span>
+
+                <h1 class="hero-title">
+                    Admin Control Panel <br>
+                    <span>AI Prescription System</span>
+                </h1>
+
+                <p class="hero-desc">
+                    Manage users, monitor prescriptions, validate medical data, and ensure system security using advanced AI tools.
+                </p>
+
+                <!-- FEATURES LIST -->
+                <div class="hero-features mt-4">
+
+                    <div class="feature-box">
+                        <i class="fas fa-users-cog"></i>
+                        <div>
+                            <h6>User Management</h6>
+                            <p>Control and monitor registered users</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-box">
+                        <i class="fas fa-database"></i>
+                        <div>
+                            <h6>Data Monitoring</h6>
+                            <p>Track prescriptions and AI outputs</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-box">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <h6>System Security</h6>
+                            <p>Ensure safe and reliable system usage</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- STATS -->
+                <div class="hero-stats mt-5">
+                    <div>
+                        <h4>100%</h4>
+                        <p>System Control</p>
+                    </div>
+                    <div>
+                        <h4>Real-time</h4>
+                        <p>Monitoring</p>
+                    </div>
+                    <div>
+                        <h4>Secure</h4>
+                        <p>Access</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE (ADMIN LOGIN CARD) -->
+            <div class="col-lg-5 offset-lg-1 mt-5 mt-lg-0">
+
+                <div class="login-card">
+
+                    <h3>Admin Login</h3>
+                    <p class="text-muted mb-4">Authorized access only</p>
+
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        {% for message in messages %}
+                          <div class="alert alert-info" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border: 1px solid #3b82f6; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; color: #1e40af; font-weight: 500; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);">
+                            <i class="fas fa-info-circle" style="margin-right: 8px; color: #3b82f6;"></i>
+                            {{ message }}
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith %}
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label>Admin Username</label>
+                            <input type="text" name="username" class="form-control" placeholder="Enter admin username" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                        </div>
+
+                        <button class="btn btn-login">Login as Admin</button>
+
+                    </form>
+
+                    <div class="register-link mt-3 text-center">
+                        <small class="text-muted">Restricted Area • Admin Access Only</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+
+
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p> AI Prescription System</p>
+</footer>
+<script>
+window.addEventListener("scroll", function() {
+    let navbar = document.querySelector(".navbar");
+    navbar.classList.toggle("scrolled", window.scrollY > 50);
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
