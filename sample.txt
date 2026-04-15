@@ -1,0 +1,42 @@
+✅ 🟢 SAMPLE 1 — SUITABLE CASE
+🔹 Patient Input
+Symptoms: Fever, Body Pain
+Medical History: No chronic illness
+Previous Medications: None
+🔹 Prescription Input
+Tab Paracetamol 500mg – 1-0-1 for 5 days
+🔹 Expected Output
+Prediction: Suitable ✅
+Confidence Score: 0.92 (92%)
+
+✔ Medicine validated  
+✔ Dosage within safe range  
+✔ No drug interaction detected  
+✔ Alternative: Generic Paracetamol available  
+🧠 Why it is Suitable?
+Paracetamol is correct for fever
+No chronic disease
+No previous medication conflict
+Safe dosage
+❌ 🔴 SAMPLE 2 — NOT SUITABLE CASE
+🔹 Patient Input
+Symptoms: Stomach Pain, Vomiting
+Medical History: Chronic Liver Disease
+Previous Medications: Paracetamol (recent use)
+🔹 Prescription Input
+Tab Paracetamol 650mg – 1-1-1 for 7 days
+🔹 Expected Output
+Prediction: Not Suitable ❌
+Confidence Score: 0.35 (35%)
+
+⚠ High dosage risk  
+⚠ Not ideal for liver condition  
+⚠ Repeated medication usage detected  
+
+Recommendation:
+Use alternative medicine (e.g., antacid / doctor consultation required)
+🧠 Why it is Not Suitable?
+❌ Liver disease → Paracetamol risky
+❌ High dosage (650mg × 3)
+❌ Already used medication
+❌ Symptoms not matching (stomach issue ≠ fever)
